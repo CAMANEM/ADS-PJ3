@@ -31,7 +31,7 @@ class Graph:
     def path(self, a, b):
         path = []
         actual = b
-        while actual is not None:
+        while actual != None:
             path.insert(0, actual) #a por 0
             actual = self.apex[actual].dad
         return [path, self.apex[b].distance]
@@ -71,14 +71,14 @@ class Graph:
 
             while len(not_visited) > 0:
                 for i in self.apex[actual].neighbor:
-                    if not self.apex[i[0]].visited:
+                    if self.apex[i[0]].visited == False:
                         if (self.apex[actual].distance + i[1]) < self.apex[i[0]].distance: # el signo original es "<"
                             self.apex[i[0]].distance = (self.apex[actual].distance + i[1])
                             self.apex[i[0]].dad = actual
                 self.apex[actual].visited = True
                 not_visited.remove(actual)
-                actual = self.minimum(not_visited) # esta es la original
-                #actual = self.maximum(not_visited)
+                #actual = self.minimum(not_visited) # esta es la original
+                actual = self.maximum(not_visited)
         else:
             return False
 
@@ -113,7 +113,7 @@ def main():
     print("\nThe faster way for dijkstra with the cost is: ")
 
     hp.dijkstra(0)
-    print(hp.path(0, 4))
+    print(hp.path(0, 3))
 
     # hp.reset_visited()
     #
