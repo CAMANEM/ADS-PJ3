@@ -59,8 +59,3 @@ class Ohm:
         power = voltage * intensity
         
         return [voltage, intensity, power]
-
-
-print("Voltaje" , Ohm.Voltage(2, 3))
-print("Intensidad ", Ohm.Intensity(6, 3))
-print("Nueva salida", Ohm.CableOutput(250, 0.001, 15, 5))
