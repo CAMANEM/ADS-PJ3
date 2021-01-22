@@ -5,23 +5,30 @@ class Vertex:
         self.visited = False
         self.dad = None
         self.distance = float('inf')
+        self.x = None
+        self.y = None
+        self.Left_Right = None
 
-    def add_neighbor(self, v, p):
+    def add_neighbor(self, v, p, s1, s2):
         if v not in self.neighbor:
-            self.neighbor.append([v, p])
+            self.neighbor.append([v, p, s1, s2])
 
 
 class Graph:
     def __init__(self):
         self.apex = {}
+        self.connections = []
 
-    def add_apex(self, idf):
+    def add_apex(self, idf, x, y):
         if id not in self.apex:
             self.apex[idf] = Vertex(idf)
+            self.apex[idf].x = x
+            self.apex[idf].y = y
 
-    def add_edge(self, a, b, p):
+    def add_edge(self, a, b, p, s1, s2):
         if a in self.apex and b in self.apex:
-            self.apex[a].add_neighbor(b, p)
+            self.connections += [[a, b, p]]
+            self.apex[a].add_neighbor(b, p, s1, s2)
             # self.apex[b].add_neighbor(a, p)
 
     def path(self, a, b):
@@ -122,26 +129,5 @@ class Graph:
         else:
             print("Same node")
 
-
-def main():
-    hp = Graph()
-
-    hp.add_apex(1)
-    hp.add_apex(2)
-    hp.add_apex(3)
-    hp.add_apex(4)
-    hp.add_apex(9)
-
-    hp.add_edge(1, 2, 3)
-    hp.add_edge(1, 4, 8)
-    hp.add_edge(1, 3, 15)
-
-    hp.add_edge(2, 4, 3)
-    hp.add_edge(3, 4, 8)
-
-    hp.add_edge(4, 9, 3)
-
-    hp.get_ways(1, 4)
-
-
-main()
+    def get_connections(self):
+        return self.connections
