@@ -4,7 +4,7 @@ from Graphics.TextBox import InputBox
 from Graph_Logic.graph import Graph
 
 pygame.init()
-size = (900, 800)
+size = (900, 850)
 black = (0, 0, 0)
 white = (255, 255, 255)
 screen = pygame.display.set_mode(size)
@@ -27,7 +27,8 @@ check = pygame.image.load(os.getcwd() + "\\Graphics\\images\\check.png").convert
 
 line_selected = False
 
-input_box = InputBox(600, 730, 150, 40)
+input_box1 = InputBox(600, 730, 150, 40)
+input_box2 = InputBox(600, 790, 150, 40)
 
 
 
@@ -60,7 +61,7 @@ while running:
                     # for imagen in images_list:
                     #     imagen.clear()
 
-            if line_selected:
+            if line_selected and input_box1.text == "" and input_box2.text == "": #hay que quitarle el peso a las conexiones
                 for imagen in images_list:
                     if imagen.rect.collidepoint(pos):
                         result = imagen.check_side()
@@ -70,7 +71,7 @@ while running:
                             saved_coord = result
                             saved_id = imagen.id
                         else:
-                            grafo.add_edge(saved_id, imagen.id, int(input_box.text), saved_coord, result)
+                            grafo.add_edge(saved_id, imagen.id, 0, saved_coord, result) #el cero es un calculo de tensiones
                             lines = grafo.get_connections()
                             saved_coord = None
                             saved_id = None
@@ -80,14 +81,20 @@ while running:
 
             else:
                 if x < 860 and y < 660 and event.button == 3:
-                    if cell_boolean:
-                        images_list.add(Imagen(x, y, "cell.png", int(input_box.text)))
-                        grafo.add_apex(int(input_box.text), x, y)
-                    elif resistor_boolean:
-                        images_list.add(Imagen(x, y, "resistor.png", int(input_box.text)))
-                        grafo.add_apex(int(input_box.text), x, y)
-                    else:
-                        pass
+                    if input_box1.text != "" and input_box2 != "":
+                        try:
+                            id = int(input_box1.text)
+                            valor = int(input_box2.text)
+                            if cell_boolean:
+                                images_list.add(Imagen(x, y, "cell.png", id))
+                                grafo.add_apex(id, x, y, valor, "cell")
+                            elif resistor_boolean:
+                                images_list.add(Imagen(x, y, "resistor.png", id))
+                                grafo.add_apex(id, x, y, valor, "resistor")
+                            else:
+                                pass
+                        except:
+                            pass
                 elif event.button == 1 and image_selected == False:
                     for imagen in images_list:
                         if imagen.rect.collidepoint(pos):
@@ -101,8 +108,11 @@ while running:
             for imagen in images_list:
                 imagen.clicked = False
 
-        input_box.handle_event(event)
-        input_box.update()
+        input_box1.handle_event(event)
+        input_box1.update()
+
+        input_box2.handle_event(event)
+        input_box2.update()
         # Logica aqui
 
     for imagen in images_list:
@@ -138,7 +148,8 @@ while running:
 
     screen.blit(cell, (50, 720))
     screen.blit(resistor, (200, 720))
-    input_box.draw(screen)
+    input_box1.draw(screen)
+    input_box2.draw(screen)
 
     if cell_boolean:
         screen.blit(check, (120,737))

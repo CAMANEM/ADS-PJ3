@@ -8,6 +8,8 @@ class Vertex:
         self.x = None
         self.y = None
         self.Left_Right = None
+        self.valor = None
+        self.type = None
 
     def add_neighbor(self, v, p, s1, s2):
         if v not in self.neighbor:
@@ -19,11 +21,13 @@ class Graph:
         self.apex = {}
         self.connections = []
 
-    def add_apex(self, idf, x, y):
+    def add_apex(self, idf, x, y, valor, type):
         if id not in self.apex:
             self.apex[idf] = Vertex(idf)
             self.apex[idf].x = x
             self.apex[idf].y = y
+            self.apex[idf].valor = valor
+            self.apex[idf].type = type
 
     def add_edge(self, a, b, p, s1, s2):
         if a in self.apex and b in self.apex:
