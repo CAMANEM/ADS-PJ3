@@ -2,6 +2,7 @@ import pygame, os
 from Graphics.imagenes import Imagen
 from Graphics.TextBox import InputBox
 from Graph_Logic.graph import Graph
+from Ohm.Ohm import Ohm
 
 pygame.init()
 size = (900, 850)
@@ -65,6 +66,7 @@ while running:
                 for imagen in images_list:
                     if imagen.rect.collidepoint(pos):
                         result = imagen.check_side()
+
                         if result == -1:
                             print("ya seleccionado")
                         elif saved_coord == None:
